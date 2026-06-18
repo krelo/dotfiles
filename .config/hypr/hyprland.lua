@@ -46,7 +46,6 @@ local menu        = "hyprlauncher"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh")
     hl.exec_cmd("mako")
     hl.exec_cmd("waybar")
     hl.exec_cmd("wl-paste --watch cliphist store")

@@ -12,6 +12,11 @@ source /usr/share/cachyos-zsh-config/cachyos-config.zsh
 
 . "$HOME/.local/share/../bin/env"
 
+# Use the gcr (gnome-keyring) ssh-agent, socket-activated by systemd --user.
+# It auto-loads ~/.ssh keys and stores passphrases in the Secret Service
+# (KWallet), so they unlock silently once the wallet is unlocked at login.
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gcr/ssh"
+
 # go-task (taskfile.dev) installs as `go-task` on Arch to avoid clashing with
 # Taskwarrior's `task`. Alias so the documented `task <cmd>` workflow works.
 alias task='go-task'
