@@ -61,7 +61,6 @@
 | cliphist | Clipboard history manager |
 | hyprlock | Hyprland lock screen |
 | hypridle | Hyprland idle daemon |
-| gnome-keyring | Secret service / SSH keyring |
 
 ---
 
@@ -72,3 +71,4 @@
 | uv | Python package/project manager (astral.sh install script → ~/.local/bin) |
 | go | Go toolchain (pacman) |
 | go-task | Task runner for Taskfile.yml (pacman) |
+| kwallet-pam | PAM module to auto-unlock KWallet at login (pacman) |
