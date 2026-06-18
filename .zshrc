@@ -9,3 +9,9 @@ source /usr/share/cachyos-zsh-config/cachyos-config.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+. "$HOME/.local/share/../bin/env"
+
+# go-task (taskfile.dev) installs as `go-task` on Arch to avoid clashing with
+# Taskwarrior's `task`. Alias so the documented `task <cmd>` workflow works.
+alias task='go-task'

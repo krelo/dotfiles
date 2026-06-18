@@ -62,3 +62,13 @@
 | hyprlock | Hyprland lock screen |
 | hypridle | Hyprland idle daemon |
 | gnome-keyring | Secret service / SSH keyring |
+
+---
+
+## 2026-06-19 — cernel_backend dev environment
+
+| Package | Description |
+|---|---|
+| uv | Python package/project manager (astral.sh install script → ~/.local/bin) |
+| go | Go toolchain (pacman) |
+| go-task | Task runner for Taskfile.yml (pacman) |

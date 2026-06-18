@@ -65,25 +65,6 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 
 -----------------------
------ PERMISSIONS -----
------------------------
-
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Permissions/
--- Please note permission changes here require a Hyprland restart and are not applied on-the-fly
--- for security reasons
-
--- hl.config({
---   ecosystem = {
---     enforce_permissions = true,
---   },
--- })
-
--- hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
--- hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
--- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
-
-
------------------------
 ---- LOOK AND FEEL ----
 -----------------------
 
@@ -163,25 +144,10 @@ hl.animation({ leaf = "fadeLayersOut", enabled = true,  speed = 1.39, bezier = "
 hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
-
--- Ref https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
--- "Smart gaps" / "No gaps when only"
--- uncomment all if you wish to use that.
--- hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
--- hl.workspace_rule({ workspace = "f[1]",   gaps_out = 0, gaps_in = 0 })
--- hl.window_rule({
---     name  = "no-gaps-wtv1",
---     match = { float = false, workspace = "w[tv1]" },
---     border_size = 0,
---     rounding    = 0,
--- })
--- hl.window_rule({
---     name  = "no-gaps-f1",
---     match = { float = false, workspace = "f[1]" },
---     border_size = 0,
---     rounding    = 0,
--- })
+hl.animation({ leaf = "zoomFactor",         enabled = true,  speed = 7,    bezier = "quick" })
+hl.animation({ leaf = "specialWorkspace",   enabled = true,  speed = 4,    bezier = "easeOutQuint", style = "slidevert top" })
+hl.animation({ leaf = "specialWorkspaceIn", enabled = true,  speed = 4,    bezier = "easeOutQuint", style = "slidevert top" })
+hl.animation({ leaf = "specialWorkspaceOut",enabled = true,  speed = 3,    bezier = "easeOutQuint", style = "slidevert bottom" })
 
 -- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
 hl.config({
@@ -261,8 +227,7 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal .. " zsh"))
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
--- closeWindowBind:set_enabled(false)
+hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
@@ -285,10 +250,10 @@ hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
 
 -- Resize windows with mainMod + ALT + arrow keys
-hl.bind(mainMod .. " + ALT + right", hl.dsp.exec_raw("hyprctl dispatch resizeactive 100 0"),   { repeating = true })
-hl.bind(mainMod .. " + ALT + left",  hl.dsp.exec_raw("hyprctl dispatch resizeactive -100 0"),  { repeating = true })
-hl.bind(mainMod .. " + ALT + up",    hl.dsp.exec_raw("hyprctl dispatch resizeactive 0 -100"),  { repeating = true })
-hl.bind(mainMod .. " + ALT + down",  hl.dsp.exec_raw("hyprctl dispatch resizeactive 0 100"),   { repeating = true })
+hl.bind(mainMod .. " + ALT + right", hl.dsp.window.resize({ x = 100,  y = 0,    relative = true }), { repeating = true })
+hl.bind(mainMod .. " + ALT + left",  hl.dsp.window.resize({ x = -100, y = 0,    relative = true }), { repeating = true })
+hl.bind(mainMod .. " + ALT + up",    hl.dsp.window.resize({ x = 0,    y = -100, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + ALT + down",  hl.dsp.window.resize({ x = 0,    y = 100,  relative = true }), { repeating = true })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -307,8 +272,17 @@ hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- Skip action if the focused window is fullscreen.
+local function ifNotFullscreen(dispatcher)
+    return function()
+        local win = hl.get_active_window()
+        if win and win.fullscreen ~= 0 then return end
+        hl.dispatch(dispatcher)
+    end
+end
+
+hl.bind(mainMod .. " + mouse:272", ifNotFullscreen(hl.dsp.window.drag()),   { mouse = true })
+hl.bind(mainMod .. " + mouse:273", ifNotFullscreen(hl.dsp.window.resize()), { mouse = true })
 
 -- Screenshots
 hl.bind("Print",              hl.dsp.exec_cmd("grim -g \"$(slurp)\" ~/Pictures/screenshots/$(date +%Y%m%d-%H%M%S).png"))
@@ -345,14 +319,13 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 -- Example window rules that are useful
 
-local suppressMaximizeRule = hl.window_rule({
+hl.window_rule({
     -- Ignore maximize requests from all apps. You'll probably like this.
     name  = "suppress-maximize-events",
     match = { class = ".*" },
 
     suppress_event = "maximize",
 })
--- suppressMaximizeRule:set_enabled(false)
 
 hl.window_rule({
     -- Allow Steam notification popups to receive clicks
@@ -375,14 +348,6 @@ hl.window_rule({
 
     no_focus = true,
 })
-
--- Layer rules also return a handle.
--- local overlayLayerRule = hl.layer_rule({
---     name  = "no-anim-overlay",
---     match = { namespace = "^my-overlay$" },
---     no_anim = true,
--- })
--- overlayLayerRule:set_enabled(false)
 
 -- Hyprland-run windowrule
 hl.window_rule({
