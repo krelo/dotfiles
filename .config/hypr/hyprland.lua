@@ -50,6 +50,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("hypridle")
+    -- Secret Service (org.freedesktop.secrets) is provided by ksecretd, started on
+    -- demand via D-Bus activation (org.kde.secretservicecompat.service) and auto-unlocked
+    -- by pam_kwallet5.so at login (see /etc/pam.d/sddm). No manual start needed.
 end)
 
 
