@@ -47,7 +47,7 @@ local menu        = "hyprlauncher"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("mako")
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("qs -c noctalia-shell")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("hypridle")
     -- Secret Service (org.freedesktop.secrets) is provided by ksecretd, started on
