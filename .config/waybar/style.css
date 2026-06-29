@@ -32,9 +32,17 @@ window#waybar {
     background: rgba(137, 180, 250, 0.1);
 }
 
-#clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray {
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #custom-power {
     padding: 0 10px;
     color: #cdd6f4;
+}
+
+#custom-power {
+    padding-right: 14px;
+}
+
+#custom-power:hover {
+    background: rgba(137, 180, 250, 0.1);
 }
 
 #battery.warning { color: #fab387; }

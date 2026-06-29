@@ -6,7 +6,13 @@
 
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray", "custom/power"],
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "/home/krelo/.config/waybar/power-menu.sh"
+    },
 
     "hyprland/workspaces": {
         "format": "{id}",
