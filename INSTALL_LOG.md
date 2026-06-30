@@ -72,3 +72,27 @@
 | go | Go toolchain (pacman) |
 | go-task | Task runner for Taskfile.yml (pacman) |
 | kwallet-pam | PAM module to auto-unlock KWallet at login (pacman) |
+
+---
+
+## 2026-06-29 — Noctalia desktop shell + audio plugins
+
+### Desktop shell
+| Package | Description |
+|---|---|
+| noctalia-shell | Quickshell-based Wayland desktop shell (replaced Waybar in autostart) |
+| noctalia-qs | Quickshell fork powering Noctalia; provides `quickshell` (replaced the stock `quickshell` installed first) |
+
+### Audio
+| Package | Description |
+|---|---|
+| x42-plugins | x42 LV2/JACK audio plugins — provides the fat1 autotune used by EasyEffects |
+| x42-plugins-lv2 | LV2 plugin set (pulled in with x42-plugins) |
+
+---
+
+## 2026-06-30 — Icons
+
+| Package | Description |
+|---|---|
+| papirus-icon-theme | Broad-coverage icon theme (fixes Noctalia launcher placeholder icons; set via qt6ct + GTK) |
