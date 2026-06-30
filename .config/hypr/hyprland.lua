@@ -66,6 +66,10 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
+-- Make Qt apps (e.g. Quickshell/Noctalia) honor qt6ct, which sets the
+-- Papirus-Dark icon theme. Without this they fall back to placeholder icons.
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+
 
 -----------------------
 ---- LOOK AND FEEL ----
