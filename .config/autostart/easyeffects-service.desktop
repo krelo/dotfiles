@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=EasyEffects (service)
+Comment=Start after audio device settles to avoid grabbing the mic before it is ready
+Exec=sh -c 'sleep 20; easyeffects --gapplication-service'
+Icon=easyeffects
+StartupNotify=false
+Terminal=false
+X-GNOME-Autostart-enabled=true
