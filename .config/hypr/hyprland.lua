@@ -50,6 +50,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("qs -c noctalia-shell")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("hypridle")
+    hl.exec_cmd("steam")  -- pinned to workspace 3 via the window rule below
     -- Secret Service (org.freedesktop.secrets) is provided by ksecretd, started on
     -- demand via D-Bus activation (org.kde.secretservicecompat.service) and auto-unlocked
     -- by pam_kwallet5.so at login (see /etc/pam.d/sddm). No manual start needed.
@@ -358,4 +359,12 @@ hl.window_rule({
 
     move  = "20 monitor_h-120",
     float = true,
+})
+
+-- Pin Steam to workspace 3. "silent" sends it there on launch without
+-- pulling the active workspace away from you at login.
+hl.window_rule({
+    name      = "steam-to-workspace-3",
+    match     = { class = "steam" },
+    workspace = "3 silent",
 })
