@@ -239,6 +239,7 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call launcher toggle"))  -- Noctalia app launcher
 hl.bind(mainMod .. " + P",         hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.pin())
 hl.bind(mainMod .. " + F11",       hl.dsp.window.fullscreen())
