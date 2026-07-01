@@ -1,0 +1,17 @@
+[Unit]
+Description=Load SSH keys into gcr-ssh-agent at login
+Documentation=man:ssh-add(1)
+After=gcr-ssh-agent.socket
+Wants=gcr-ssh-agent.socket
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=SSH_AUTH_SOCK=%t/gcr/ssh
+Environment=SSH_ASKPASS=%h/.local/bin/ssh-askpass-keyring
+Environment=SSH_ASKPASS_REQUIRE=force
+Environment=SSH_ASKPASS_KEY=id_ed25519
+ExecStart=/usr/bin/ssh-add %h/.ssh/id_ed25519
+
+[Install]
+WantedBy=default.target

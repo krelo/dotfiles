@@ -1,0 +1,6 @@
+#!/bin/sh
+# Retrieve an SSH key passphrase from the Secret Service (ksecretd/KWallet).
+# ssh-add invokes this with the prompt text as $1; we ignore it and print the
+# stored passphrase for the key whose basename is passed in $SSH_ASKPASS_KEY.
+key="${SSH_ASKPASS_KEY:-id_ed25519}"
+exec /usr/bin/secret-tool lookup ssh-key "$key"
